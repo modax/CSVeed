@@ -4,7 +4,7 @@
     <groupId>org.csveed</groupId>
     <artifactId>csveed</artifactId>
     <version>0.4.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <name>CSVeed</name>
     <description>Java toolkit for mapping CSV-to-Bean mapping and vice versa</description>
     <inceptionYear>2013</inceptionYear>
@@ -106,7 +106,34 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9</version>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
+                    </instructions>
+                </configuration>
+            </plugin>
+
         </plugins>
+
     </build>
 
     <reporting>
