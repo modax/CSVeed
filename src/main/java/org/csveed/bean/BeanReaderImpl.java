@@ -1,6 +1,5 @@
 package org.csveed.bean;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +22,13 @@ public class BeanReaderImpl<T> implements BeanReader<T> {
 
     private Row unmappedRow;
 
-    public BeanReaderImpl(Reader reader, Class<T> beanClass) {
-        this(reader, new BeanParser().getBeanInstructions(beanClass));
+    public BeanReaderImpl(RowReader rowReader, Class<T> beanClass) {
+        this(rowReader, new BeanParser().getBeanInstructions(beanClass));
     }
 
-    public BeanReaderImpl(Reader reader, BeanInstructions beanInstructions) {
+    public BeanReaderImpl(RowReader rowReader, BeanInstructions beanInstructions) {
         this.beanInstructions = beanInstructions;
-        this.rowReader = new RowReaderImpl(reader, this.beanInstructions.getRowInstructions());
+        this.rowReader = rowReader;
         this.currentDynamicColumn = new DynamicColumn(this.beanInstructions.getStartIndexDynamicColumns());
     }
 
