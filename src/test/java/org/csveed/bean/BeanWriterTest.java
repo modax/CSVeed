@@ -1,10 +1,12 @@
 package org.csveed.bean;
 
+import org.csveed.row.RowWriterImpl;
 import org.csveed.test.model.BeanWithMultipleStrings;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class BeanWriterTest {
         beans.add(createBean("row 2, cell 3", "row 2, cell 2", "row 2, cell 1"));
         beans.add(createBean("row 3, cell 3", "row 3, cell 2", "row 3, cell 1"));
         BeanWriter<BeanWithMultipleStrings> beanWriter =
-                new BeanWriterImpl<BeanWithMultipleStrings>(writer, BeanWithMultipleStrings.class);
+                createBeanWriter(writer, BeanWithMultipleStrings.class);
         beanWriter.writeBeans(beans);
         writer.close();
         assertEquals(
@@ -39,4 +41,11 @@ public class BeanWriterTest {
         return bean;
     }
 
+    private static <T> BeanWriterImpl<T> createBeanWriter(Writer writer, BeanInstructions beanInstructions) {
+        return new BeanWriterImpl<T>(new RowWriterImpl(writer, beanInstructions.getRowInstructions()), beanInstructions);
+    }
+
+    private static <T> BeanWriterImpl<T> createBeanWriter(Writer writer, Class<T> beanClass) {
+        return createBeanWriter(writer, new BeanParser().getBeanInstructions(beanClass));
+    }
 }

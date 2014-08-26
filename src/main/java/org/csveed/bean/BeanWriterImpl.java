@@ -5,7 +5,6 @@ import org.csveed.bean.conversion.ConversionException;
 import org.csveed.bean.conversion.DefaultConverters;
 import org.csveed.row.*;
 
-import java.io.Writer;
 import java.util.Collection;
 
 public class BeanWriterImpl<T> implements BeanWriter<T> {
@@ -20,13 +19,13 @@ public class BeanWriterImpl<T> implements BeanWriter<T> {
 
     private HeaderImpl header;
 
-    public BeanWriterImpl(Writer writer, Class<T> beanClass) {
-        this(writer, new BeanParser().getBeanInstructions(beanClass));
+    public BeanWriterImpl(RowWriter rowWriter, Class<T> beanClass) {
+        this(rowWriter, new BeanParser().getBeanInstructions(beanClass));
     }
 
-    public BeanWriterImpl(Writer writer, BeanInstructions beanInstructions) {
+    public BeanWriterImpl(RowWriter rowWriter, BeanInstructions beanInstructions) {
         this.beanInstructions = beanInstructions;
-        this.rowWriter = new RowWriterImpl(writer, this.beanInstructions.getRowInstructions());
+        this.rowWriter = rowWriter;
     }
 
     @Override
