@@ -8,7 +8,6 @@ import org.csveed.api.Row;
 import org.csveed.report.CsvException;
 import org.csveed.report.GeneralError;
 import org.csveed.row.RowReader;
-import org.csveed.row.RowReaderImpl;
 
 public class BeanReaderImpl<T> implements BeanReader<T> {
 
@@ -57,7 +56,7 @@ public class BeanReaderImpl<T> implements BeanReader<T> {
         if (this.beanInstructions.useHeader())
             getMapper().verifyHeader(getHeader());
 
-        currentDynamicColumn.checkForReset(((RowReaderImpl) rowReader).getMaxNumberOfColumns());
+        currentDynamicColumn.checkForReset(rowReader.getMaxNumberOfColumns());
         if (currentDynamicColumn.atFirstDynamicColumn()) {
             unmappedRow = rowReader.readRow();
         }

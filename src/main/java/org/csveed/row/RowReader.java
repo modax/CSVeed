@@ -54,4 +54,9 @@ public interface RowReader {
     */
     public RowInstructions getRowInstructions();
 
+    /**
+     * The number of expected columns the next read row should have.
+     * @return number of column or -1 if unknown
+     */
+    public int getMaxNumberOfColumns();
 }
